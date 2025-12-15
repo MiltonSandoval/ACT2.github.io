@@ -1,0 +1,205 @@
+:root {
+    --bg-body: #f0f2f5;
+    --bg-card: white;
+    --text-color: #333;
+    --shadow-color: rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] {
+    --bg-body: #121212;
+    --bg-card: #1e1e1e;
+    --text-color: #f0f2f5;
+    --shadow-color: rgba(0,0,0,0.4);
+}
+
+/* Reset básico: elimina márgenes por defecto del navegador */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-body);
+    font-family: sans-serif;
+    padding: 20px;
+    transition: background-color 0.3s ease;
+}
+
+/* =======================================================
+   THEME SWITCHER
+   ======================================================= */
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 20px 20px;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+    margin-right: 10px;
+}
+
+.theme-switch input { display: none; }
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+    border-radius: 50%;
+}
+
+input:checked + .slider { background-color: #667eea; }
+input:checked + .slider:before { transform: translateX(26px); }
+
+
+/* =======================================================
+   EL CONTENEDOR MAESTRO (GRID)
+   ======================================================= */
+.gallery-grid {
+    display: grid;
+    
+    /* 1. COLUMNAS AUTOMÁTICAS (Responsivo real)
+       - repeat(auto-fill, ...): "Crea tantas columnas como quepan en la pantalla".
+       - minmax(240px, 1fr): "Cada columna debe medir AL MENOS 240px. 
+         Si sobra espacio, estírate (1fr) para llenarlo".
+       Esto evita que tengas que usar @media queries para móviles. */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+
+    /* 2. FILAS PEQUEÑAS (La clave del Masonry)
+       Creamos filas invisibles de 10px de alto. Esto nos da "resolución"
+       para decidir qué tan alta es cada tarjeta con precisión. */
+    grid-auto-rows: 10px;
+
+    /* 3. ALGORITMO INTELIGENTE (Dense)
+       Esto es lo que pedía la misión. Sin esto, si hay un hueco pequeño 
+       y sigue una tarjeta grande, queda un espacio vacío.
+       'dense' le dice al navegador: "Busca tarjetas pequeñas que vengan después 
+       y rellena los huecos vacíos de arriba". */
+    grid-auto-flow: dense;
+
+    gap: 15px; /* Espacio entre tarjetas */
+}
+
+/* =======================================================
+   LAS TARJETAS (Piezas del Tetris)
+   ======================================================= */
+.card {
+    background: var(--bg-card);
+    color: var(--text-color);
+    border-radius: 12px;
+    overflow: hidden; /* Corta la imagen si se sale de las esquinas redondeadas */
+    box-shadow: 0 4px 6px var(--shadow-color);
+    
+    /* Grid Spans: Por defecto, una tarjeta normal ocupa 26 filas de 10px 
+       (260px aprox de altura total + gaps) */
+    grid-row: span 26; 
+
+    /* Usamos Flexbox dentro para que la imagen ocupe lo que pueda */
+    display: flex;
+    flex-direction: column;
+
+    /* --- ANIMACIÓN DE ENTRADA --- */
+    opacity: 0; /* Empiezan invisibles para la animación */
+    animation: fadeInSlideUp 0.5s ease-out forwards;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* VARIANTE: Tarjeta Alta */
+.card-tall {
+    grid-row: span 42; /* Ocupa 42 filas (más alta) */
+}
+
+/* VARIANTE: Tarjeta Ancha */
+.card-wide {
+    grid-column: span 2; /* Ocupa 2 columnas a lo ancho */
+    grid-row: span 26;
+}
+
+/* VARIANTE: Tarjeta Grande (Alta y Ancha) */
+.card-big {
+    grid-column: span 2;
+    grid-row: span 42;
+}
+
+/* =======================================================
+   LAS IMÁGENES (Solución al problema visual y hover)
+   ======================================================= */
+figure {
+    margin: 0;
+    /* 'flex-grow: 1' obliga a la imagen a ocupar todo el espacio 
+       disponible en la tarjeta, empujando el texto hacia abajo */
+    flex-grow: 1; 
+    height: 100%; /* Asegura que tenga altura */
+    overflow: hidden; /* Necesario para que el zoom del hover no se salga */
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    
+    /* PROPIEDAD CLAVE: object-fit
+       - 'cover': Hace que la imagen actúe como un fondo. 
+       Se recorta si es necesario, pero NUNCA se deforma/estira.
+       Sin esto, tus imágenes se verían aplastadas. */
+    object-fit: cover;
+    display: block; /* Elimina un pequeño espacio blanco fantasma debajo de las img */
+
+    /* --- TRANSICIÓN PARA EL HOVER --- */
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.card:hover img {
+    /* --- EFECTO HOVER --- */
+    transform: scale(1.05) rotate(2deg);
+}
+
+.card-content {
+    padding: 15px;
+}
+
+/* =======================================================
+   ANIMACIONES Y KEYFRAMES
+   ======================================================= */
+
+/* Keyframes para la animación de entrada */
+@keyframes fadeInSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animaciones secuenciales (opcional, como en la slide) */
+.card:nth-child(1) { animation-delay: 0s; }
+.card:nth-child(2) { animation-delay: 0.1s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.3s; }
+.card:nth-child(5) { animation-delay: 0.4s; }
+.card:nth-child(6) { animation-delay: 0.5s; }
+/* Puedes añadir más si tienes más tarjetas */
