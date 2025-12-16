@@ -1,0 +1,115 @@
+/*
+ *  Tema: Synthwave Dev
+ */
+
+body {
+    background-color: #0d0221; /* Fondo principal oscuro */
+    color: #f0f0f0; /* Color de texto principal */
+
+    /* Efecto de cuadrícula (grid) de neón */
+    background-image:
+        linear-gradient(rgba(102, 217, 239, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(102, 217, 239, 0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    font-family: 'Consolas', 'Menlo', 'Monaco', monospace; /* Fuente estilo "coder" */
+}
+
+/* --- Colores de Acento --- */
+h1, h2, h5, .navbar-brand {
+    color: #f92672 !important; /* Acento primario: Magenta */
+    font-weight: bold;
+}
+
+#skills .display-4, .text-accent-secondary {
+    color: #66d9ef !important; /* Acento secundario: Cian */
+}
+
+/* --- Barra de Navegación --- */
+.navbar {
+    background-color: rgba(13, 2, 33, 0.85) !important; /* Fondo semi-transparente */
+    backdrop-filter: blur(10px); /* Efecto "glassmorphism" */
+}
+
+/* --- Secciones y Paneles --- */
+#about, #contact {
+    background-color: rgba(26, 10, 59, 0.7); /* Panel oscuro traslúcido */
+    border-radius: 15px;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.hero-section {
+    color: #f0f0f0; /* Asegurar texto claro */
+}
+
+/* --- Tarjetas (Habilidades y Proyectos) --- */
+.card {
+    background-color: #1a0a3b; /* Fondo de tarjeta oscuro */
+    border: 1px solid #66d9ef; /* Borde cian */
+    color: #f0f0f0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 0 5px rgba(102, 217, 239, 0.5); /* Resplandor sutil */
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 20px rgba(102, 217, 239, 0.8); /* Resplandor intenso al pasar el mouse */
+}
+
+.card-title {
+    color: #f92672 !important; /* Títulos de tarjeta en magenta */
+}
+
+.badge.bg-primary {
+    background-color: #f92672 !important; /* Insignias en magenta */
+    color: #0d0221;
+    font-weight: bold;
+}
+
+/* --- Botones --- */
+.btn-primary {
+    background-color: #f92672;
+    border-color: #f92672;
+    color: #0d0221;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #fff;
+    border-color: #fff;
+    color: #f92672;
+}
+
+.btn-outline-primary {
+    color: #66d9ef;
+    border-color: #66d9ef;
+    font-weight: bold;
+}
+
+.btn-outline-primary:hover {
+    color: #0d0221;
+    background-color: #66d9ef;
+    border-color: #66d9ef;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: transparent; /* El footer se integra con el fondo */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+footer .text-white {
+    color: #f0f0f0 !important;
+}
+
+footer a {
+    color: #66d9ef !important; /* Enlaces del footer en cian */
+    transition: color 0.3s;
+}
+
+footer a:hover {
+    color: #f92672 !important; /* Hover en magenta */
+}
